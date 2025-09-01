@@ -1,0 +1,63 @@
+﻿@page "/progress"
+@using System.Timers
+@implements IDisposable
+
+<PageTitle>Progress</PageTitle>
+
+<h1>Progress</h1>
+
+<progress max="100" value="@currentValue">@currentValue%</progress>
+
+<p>Progress: @currentValue% (@elapsedSeconds seconds elapsed)</p>
+
+<button @onclick="StartProgress" disabled="@isRunning">Start</button>
+<button @onclick="ResetProgress">Reset</button>
+
+@code {
+    private int currentValue = 0;
+    private int elapsedSeconds = 0;
+    private bool isRunning = false;
+    private System.Timers.Timer? timer;
+
+    private void StartProgress()
+    {
+        if (isRunning) return;
+        
+        isRunning = true;
+        currentValue = 0;
+        elapsedSeconds = 0;
+        
+        timer = new System.Timers.Timer(300); // 1 second interval
+        timer.Elapsed += OnTimedEvent;
+        timer.AutoReset = true;
+        timer.Enabled = true;
+    }
+    
+    private void OnTimedEvent(object? source, ElapsedEventArgs e)
+    {
+        elapsedSeconds++;
+        currentValue = elapsedSeconds;
+        
+        if (currentValue >= 100)
+        {
+            timer?.Stop();
+            isRunning = false;
+        }
+        
+        InvokeAsync(StateHasChanged);
+    }
+    
+    private void ResetProgress()
+    {
+        timer?.Stop();
+        isRunning = false;
+        currentValue = 0;
+        elapsedSeconds = 0;
+        StateHasChanged();
+    }
+    
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}

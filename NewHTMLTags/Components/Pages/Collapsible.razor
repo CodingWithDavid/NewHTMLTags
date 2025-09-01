@@ -1,0 +1,51 @@
+﻿@page "/collapsible"
+
+<PageTitle>Collapsible</PageTitle>
+
+<h1>Collapsible</h1>
+
+@foreach (var faq in faqs)
+{
+    <details>
+        <summary>@faq.Question</summary>
+        <p>@faq.Answer</p>
+    </details>
+}
+
+@code {
+    private List<FAQ> faqs = new()
+    {
+        new FAQ 
+        { 
+            Question = "FAQ: What is HTML?", 
+            Answer = "HTML is the actual markup language for web pages." 
+        },
+        new FAQ 
+        { 
+            Question = "FAQ: What is CSS?", 
+            Answer = "CSS (Cascading Style Sheets) is used to style and layout web pages, controlling the presentation and appearance of HTML elements." 
+        },
+        new FAQ 
+        { 
+            Question = "FAQ: What is JavaScript?", 
+            Answer = "JavaScript is a programming language that enables interactive web pages and is an essential part of web applications alongside HTML and CSS." 
+        },
+        new FAQ 
+        { 
+            Question = "FAQ: What is Blazor?", 
+            Answer = "Blazor is a web framework that allows developers to build interactive web applications using C# instead of JavaScript, running either on the server or in the browser via WebAssembly." 
+        },
+        new FAQ 
+        { 
+            Question = "FAQ: What is responsive design?", 
+            Answer = "Responsive design is an approach to web design that makes web pages render well on a variety of devices and window or screen sizes, from desktop to mobile." 
+        }
+    };
+
+    public class FAQ
+    {
+        public string Question { get; set; } = "";
+        public string Answer { get; set; } = "";
+    }
+}
+

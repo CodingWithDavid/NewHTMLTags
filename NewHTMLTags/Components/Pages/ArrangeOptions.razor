@@ -1,0 +1,62 @@
+﻿@page "/arrangeoptions"
+
+<PageTitle>ArrangeOptions</PageTitle>
+
+<h1>ArrangeOptions</h1>
+
+<select @bind="selectedOption">
+    @foreach (var group in optionGroups)
+    {
+        <optgroup label="@group.Label">
+            @foreach (var option in group.Options)
+            {
+                <option value="@option.Value">@option.Text</option>
+            }
+        </optgroup>
+    }
+</select>
+
+@if (!string.IsNullOrEmpty(selectedOption))
+{
+    <p>Selected: @selectedOption</p>
+}
+
+@code {
+    private string selectedOption = "";
+    
+    private List<OptionGroup> optionGroups = new()
+    {
+        new OptionGroup 
+        { 
+            Label = "Fruits", 
+            Options = new List<SelectOption>
+            {
+                new SelectOption { Value = "apple", Text = "Apple" },
+                new SelectOption { Value = "banana", Text = "Banana" },
+                new SelectOption { Value = "orange", Text = "Orange" }
+            }
+        },
+        new OptionGroup 
+        { 
+            Label = "Vegetables", 
+            Options = new List<SelectOption>
+            {
+                new SelectOption { Value = "carrot", Text = "Carrot" },
+                new SelectOption { Value = "spinach", Text = "Spinach" },
+                new SelectOption { Value = "broccoli", Text = "Broccoli" }
+            }
+        }
+    };
+    
+    public class OptionGroup
+    {
+        public string Label { get; set; } = "";
+        public List<SelectOption> Options { get; set; } = new();
+    }
+    
+    public class SelectOption
+    {
+        public string Value { get; set; } = "";
+        public string Text { get; set; } = "";
+    }
+}
